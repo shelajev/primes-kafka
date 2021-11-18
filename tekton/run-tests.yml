@@ -1,0 +1,13 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: run-tests
+spec:
+  pipelineRef:
+    name: maven-pipeline
+  serviceAccountName: tekton-dashboard
+  params:
+  - name: application-name
+    value: java-app-example
+  - name: application-git-url
+    value: https://github.com/shelajev/primes-kafka.git
