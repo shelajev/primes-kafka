@@ -1,13 +1,14 @@
 apiVersion: tekton.dev/v1beta1
-kind: PipelineRun
+kind: Task
 metadata:
-  generateName: run-tests
+  name: maven-build
 spec:
-  pipelineRef:
-    name: maven-pipeline
-  serviceAccountName: tekton-dashboard
-  params:
-  - name: application-name
-    value: java-app-example
-  - name: application-git-url
-    value: https://github.com/shelajev/primes-kafka.git
+  workspaces:
+   -name: filedrop
+  steps:
+  - name: build
+    image: maven:3.6.0-jdk-11-slim
+    command:
+    - /usr/bin/mvn
+    args:
+    - test
