@@ -12,3 +12,36 @@ spec:
     - /usr/bin/mvn
     args:
     - test
+    
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: output-pipeline
+spec:
+  resources:
+  - name: source-repo
+    type: git
+  tasks:
+  - name: Maven build          
+    taskRef:
+      name: maven-build
+    resources:
+      inputs:
+      - name: workspace
+        resource: source-repo
+      outputs:
+      - name: workspace
+        resource: source-repo
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: output-pipeline-run
+spec:
+  pipelineRef:
+    name: output-pipeline
+  serviceAccountName: 'default'
+  resources:
+  - name: source-repo
+    resourceRef:
+      name: skaffold-git-output-pipelinerun
