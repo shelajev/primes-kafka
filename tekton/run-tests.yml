@@ -22,7 +22,7 @@ spec:
   - name: source-repo
     type: git
   tasks:
-  - name: Maven build          
+  - name: maven-build          
     taskRef:
       name: maven-build
     resources:
